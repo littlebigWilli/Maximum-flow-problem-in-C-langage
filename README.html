@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="1038.35">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">Here is the structure of the data we have:</p>
+<p class="p2"><br></p>
+<p class="p1">Line 1 : number of vertices</p>
+<p class="p1">Line 2 : number of edges</p>
+<p class="p1">Line 3 : number of products</p>
+<p class="p1">Line 4 : number of warehouses</p>
+<p class="p1">Line 5 : number of clients</p>
+<p class="p1">Line 6 to line 6 + number of warehouse - 1 : number-of-the-warehouse-vertices<span class="Apple-converted-space">  </span>product-1-Stock<span class="Apple-converted-space">  </span>product-2-Stock ... product-K-Stock</p>
+<p class="p1">Line 6 + number of warehouses to line 6 + number of warehouses + number of clients - 1 : number-of-the-client-vertices<span class="Apple-converted-space">  </span>product-1-Demand product-2-Demand ... product-K-Demand</p>
+<p class="p1">Then each line is associate to a vertex (from 1 to n) and gives the successors list of the vertex with the capacity of the associated edge.</p>
+<p class="p2"><br></p>
+<p class="p1">Ex :<span class="Apple-converted-space"> </span></p>
+<p class="p1">10</p>
+<p class="p1">78</p>
+<p class="p1">3</p>
+<p class="p1">2</p>
+<p class="p1">3</p>
+<p class="p1">10 166 135 84</p>
+<p class="p1">1 138 143 174</p>
+<p class="p1">4 74 76 58</p>
+<p class="p1">2 78 26 39</p>
+<p class="p1">8 82 70 91</p>
+<p class="p1">2 36 4 52 6 60 7 47 8 14 9 4 10 36<span class="Apple-converted-space"> </span></p>
+<p class="p1">1 55 3 38 4 12 5 12 6 4 7 48 9 65 10 10<span class="Apple-converted-space"> </span></p>
+<p class="p1">1 61 2 17 4 17 5 19 6 55 7 25 8 23 9 63 10 50<span class="Apple-converted-space"> </span></p>
+<p class="p1">1 51 2 12 3 21 5 46 6 28 7 42 8 14 9 18 10 64<span class="Apple-converted-space"> </span></p>
+<p class="p1">1 1 4 53 6 17 9 42 10 26<span class="Apple-converted-space"> </span></p>
+<p class="p1">1 14 2 53 3 58 4 15 5 35 7 19 8 39 9 56 10 20<span class="Apple-converted-space"> </span></p>
+<p class="p1">1 17 2 35 3 29 4 58 6 68 8 54 10 45<span class="Apple-converted-space"> </span></p>
+<p class="p1">1 38 2 22 3 58 4 12 5 28 6 64 7 2 9 19 10 32<span class="Apple-converted-space"> </span></p>
+<p class="p1">1 44 2 7 4 5 5 8 6 54 7 36 8 29 10 61<span class="Apple-converted-space"> </span></p>
+<p class="p1">1 47 2 29 3 46 4 58 5 47 6 29 7 67<span class="Apple-converted-space"> </span></p>
+<p class="p2"><br></p>
+<p class="p1">==&gt; This graph will have 10 vertices and 78 edges.</p>
+<p class="p1"><span class="Apple-converted-space"> </span>There will be 3 different products.</p>
+<p class="p1">2 vertices will be warehouses and 3 will be clients.</p>
+<p class="p1">The vertex 10 will be a warehouse with a stock of 166 for the first product, 135 for the second one and 84 for the third one.</p>
+<p class="p1">The vertex 4 will be a client with a demand of 74 for the first product, 76 for the second one and 58 for the third one.</p>
+<p class="p1">There will be an edge between vertices 1 and 2 with a capacity of 36, 1 and 4 with a capacity of 52, 1 and 6 with a capacity of 60 …</p>
+<p class="p2"><br></p>
+<p class="p1">The basic idea is to answer best to the demand of every clients.</p>
+<p class="p1">The main idea of the heuristics is to maximize this flow product by product (product 1 then product 2 …).</p>
+<p class="p2"><br></p>
+<p class="p1">For the first heuristic we use edges with smaller capacity at each iteration by decreasing of 15% (this percentage gives us the best results).</p>
+<p class="p2"><br></p>
+<p class="p1">Ex: the structure is : start -&gt; end<span class="Apple-converted-space">  </span>capacity</p>
+<p class="p1">for the graph 1 -&gt; 2 100 , 1 -&gt; 3 85 , 2 -&gt; 3 70, 2 - &gt; 4 55, 3 -&gt; 4 40</p>
+<p class="p1">we will start by using the edges 1 -&gt; 2 and 1 -&gt; 3.</p>
+<p class="p1">At the second iteration 1 -&gt; 2, 1 -&gt; 3 and 2 -&gt; 3.</p>
+<p class="p1">At the third iteration<span class="Apple-converted-space">  </span>1 -&gt; 2, 1 -&gt; 3 , 2 -&gt; 3 and 2 -&gt; 4.</p>
+<p class="p1">etc …</p>
+<p class="p2"><br></p>
+<p class="p1">To find flows we use the Ford and Fulkerson algorithm with an adjacency list.</p>
+</body>
+</html>
