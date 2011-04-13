@@ -1,0 +1,55 @@
+Here is the structure of the data we have:
+
+Line 1 : number of vertices
+Line 2 : number of edges
+Line 3 : number of products
+Line 4 : number of warehouses
+Line 5 : number of clients
+Line 6 to line 6 + number of warehouse - 1 : number-of-the-warehouse-vertices  product-1-Stock  product-2-Stock ... product-K-Stock
+Line 6 + number of warehouses to line 6 + number of warehouses + number of clients - 1 : number-of-the-client-vertices  product-1-Demand product-2-Demand ... product-K-Demand
+Then each line is associate to a vertex (from 1 to n) and gives the successors list of the vertex with the capacity of the associated edge.
+
+Ex : 
+10
+78
+3
+2
+3
+10 166 135 84
+1 138 143 174
+4 74 76 58
+2 78 26 39
+8 82 70 91
+2 36 4 52 6 60 7 47 8 14 9 4 10 36 
+1 55 3 38 4 12 5 12 6 4 7 48 9 65 10 10 
+1 61 2 17 4 17 5 19 6 55 7 25 8 23 9 63 10 50 
+1 51 2 12 3 21 5 46 6 28 7 42 8 14 9 18 10 64 
+1 1 4 53 6 17 9 42 10 26 
+1 14 2 53 3 58 4 15 5 35 7 19 8 39 9 56 10 20 
+1 17 2 35 3 29 4 58 6 68 8 54 10 45 
+1 38 2 22 3 58 4 12 5 28 6 64 7 2 9 19 10 32 
+1 44 2 7 4 5 5 8 6 54 7 36 8 29 10 61 
+1 47 2 29 3 46 4 58 5 47 6 29 7 67 
+
+==> This graph will have 10 vertices and 78 edges.
+ There will be 3 different products.
+2 vertices will be warehouses and 3 will be clients.
+The vertex 10 will be a warehouse with a stock of 166 for the first product, 135 for the second one and 84 for the third one.
+The vertex 4 will be a client with a demand of 74 for the first product, 76 for the second one and 58 for the third one.
+There will be an edge between vertices 1 and 2 with a capacity of 36, 1 and 4 with a capacity of 52, 1 and 6 with a capacity of 60 …
+
+
+
+The basic idea is to answer best to the demand of every clients.
+The main idea of the heuristics is to maximize this flow product by product (product 1 then product 2 …).
+
+For the first heuristic we use edges with smaller capacity at each iteration by decreasing of 15% (this percentage gives us the best results).
+
+Ex: the structure is : start -> end  capacity
+for the graph 1 -> 2 100 , 1 -> 3 85 , 2 -> 3 70, 2 - > 4 55, 3 -> 4 40
+we will start by using the edges 1 -> 2 and 1 -> 3.
+At the second iteration 1 -> 2, 1 -> 3 and 2 -> 3.
+At the third iteration  1 -> 2, 1 -> 3 , 2 -> 3 and 2 -> 4.
+etc …
+
+To find flows we use the Ford and Fulkerson algorithm with an adjacency list.
